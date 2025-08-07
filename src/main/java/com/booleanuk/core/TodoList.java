@@ -10,7 +10,7 @@ public class TodoList {
         this.todoList = new ArrayList<>();
     }
 
-    private static class Task {
+    public static class Task {
         String task;
         String status;
 
@@ -29,6 +29,84 @@ public class TodoList {
         else {
             todoList.add(new Task(task, "incomplete"));
             return true;
+        }
+    }
+
+    public List<Task> seeTodoList(){
+        if (todoList.isEmpty()){
+            return null;
+        } else {
+            return todoList;
+        }
+    }
+
+    public Task setStatus(String task, String status){
+        Task rep = null;
+        for (Task res : todoList){
+            if (res.task.equals(task)){
+                rep = res;
+            }
+        }
+        if (seeTodoList() == null){
+            return null;
+        }
+        else if (rep == null){
+            return null;
+        } else {
+            Task updatedTask = new Task(task, status);
+            this.todoList.set(todoList.indexOf(rep), updatedTask);
+            return updatedTask;
+        }
+    }
+
+    public List<Task> getCompleteTasks() {
+        if (todoList.isEmpty()){
+            return null;
+        } else {
+            List<Task> completedTasks = new ArrayList<>();
+            for (Task task : todoList) {
+                if (task.status.equals("complete")) {
+                    completedTasks.add(task);
+                }
+            }
+            if (completedTasks.isEmpty()){
+                return null;
+            } else {
+                return completedTasks;
+            }
+        }
+    }
+
+    public List<Task> getIncompleteTasks() {
+        if (todoList.isEmpty()){
+            return null;
+        } else {
+            List<Task> incompleteTasks = new ArrayList<>();
+            for (Task task : todoList) {
+                if (task.status.equals("incomplete")) {
+                    incompleteTasks.add(task);
+                }
+            }
+            if (incompleteTasks.isEmpty()){
+                return null;
+            } else {
+                return incompleteTasks;
+            }
+        }
+    }
+
+    public Task searchForTask(String task) {
+        Task res = null;
+        for (Task target : todoList) {
+            if (target.task.equals(task)) {
+                res = target;
+            }
+        }
+        if (res == null) {
+            System.out.println("Not found!");
+            return null;
+        } else {
+            return res;
         }
     }
 }
