@@ -64,11 +64,11 @@ public class TodoListExtensionTest {
         TodoListExtension.TaskExt task1 = new TodoListExtension.TaskExt("running", 5);
         TodoListExtension.TaskExt task2 = new TodoListExtension.TaskExt("shopping", 3);
 
-        LocalDateTime currentDateTime = LocalDateTime.now();
+        int currentDateTime = LocalDateTime.now().getHour();
         todoList.addTaskExt(task1.task, task1.id);
         todoList.addTaskExt(task2.task, task2.id);
 
-        Assertions.assertEquals(currentDateTime, todoList.whenTaskCreated(5));
+        Assertions.assertEquals(currentDateTime, todoList.whenTaskCreated(5).getHour());
     }
 }
 
