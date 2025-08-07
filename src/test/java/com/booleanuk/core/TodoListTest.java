@@ -3,9 +3,6 @@ package com.booleanuk.core;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class TodoListTest {
 
     @Test
@@ -40,7 +37,7 @@ class TodoListTest {
     }
 
     @Test
-    public void testSeeAllTasks() {
+    public void testSeeTodoList() {
         TodoList todoList1 = new TodoList();
         TodoList todoList2 = new TodoList();
 
@@ -160,6 +157,8 @@ class TodoListTest {
         String task3 = "shopping";
         String task4 = "anything";
 
+        Assertions.assertNull(todoList.seeTasksInAscendingAndAlphabeticalOrder());
+
         todoList.addTask(task1);
         todoList.addTask(task2);
         todoList.addTask(task3);
@@ -184,6 +183,8 @@ class TodoListTest {
         String task2 = "cleaning";
         String task3 = "shopping";
         String task4 = "anything";
+
+        Assertions.assertNull(todoList.seeTasksInDescendingAndAlphabeticalOrder());
 
         todoList.addTask(task1);
         todoList.addTask(task2);

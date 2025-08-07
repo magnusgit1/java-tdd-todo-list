@@ -2,7 +2,6 @@ package com.booleanuk.core;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -24,11 +23,8 @@ public class TodoList {
     }
 
     public boolean addTask(String task){
-        if (task.isEmpty()){
+        if (task.isEmpty() || !task.matches("[a-zA-Z]+"))
             return false;
-        } else if (!task.matches("[a-zA-Z]+")){
-            return false;
-        }
         else {
             todoList.add(new Task(task, "incomplete"));
             return true;
@@ -36,114 +32,55 @@ public class TodoList {
     }
 
     public List<Task> seeTodoList(){
-        if (todoList.isEmpty()){
-            return null;
-        } else {
-            return todoList;
-        }
+        return (todoList.isEmpty()) ? null : todoList;
     }
 
     public Task setStatus(String task, String status){
-        Task rep = null;
-        for (Task res : todoList){
-            if (res.task.equals(task)){
-                rep = res;
-            }
-        }
-        if (seeTodoList() == null){
+
+        List<Task> targets = todoList.stream().filter(it -> it.task.equals(task)).toList();
+        Task updatedTask = new Task(task, status);
+        if (targets.isEmpty())
             return null;
-        }
-        else if (rep == null){
-            return null;
-        } else {
-            Task updatedTask = new Task(task, status);
-            this.todoList.set(todoList.indexOf(rep), updatedTask);
+        else {
+            this.todoList.set(todoList.indexOf(targets.getFirst()), updatedTask);
             return updatedTask;
         }
     }
 
     public List<Task> getCompleteTasks() {
-        if (todoList.isEmpty()){
-            return null;
-        } else {
-            List<Task> completedTasks = new ArrayList<>();
-            for (Task task : todoList) {
-                if (task.status.equals("complete")) {
-                    completedTasks.add(task);
-                }
-            }
-            if (completedTasks.isEmpty()){
-                return null;
-            } else {
-                return completedTasks;
-            }
-        }
+        List<Task> completedTasks = todoList.stream().filter(it -> it.status.equals("complete")).toList();
+        return completedTasks.isEmpty() ? null : completedTasks;
     }
 
     public List<Task> getIncompleteTasks() {
-        if (todoList.isEmpty()){
-            return null;
-        } else {
-            List<Task> incompleteTasks = new ArrayList<>();
-            for (Task task : todoList) {
-                if (task.status.equals("incomplete")) {
-                    incompleteTasks.add(task);
-                }
-            }
-            if (incompleteTasks.isEmpty()){
-                return null;
-            } else {
-                return incompleteTasks;
-            }
-        }
+        List<Task> completedTasks = todoList.stream().filter(it -> it.status.equals("incomplete")).toList();
+        return completedTasks.isEmpty() ? null : completedTasks;
     }
 
     public Task searchForTask(String task) {
-        Task res = null;
-        for (Task target : todoList) {
-            if (target.task.equals(task)) {
-                res = target;
-            }
-        }
-        if (res == null) {
-            System.out.println("Not found!");
-            return null;
-        } else {
-            return res;
-        }
+        List<Task> targets = todoList.stream().filter(it -> it.task.equals(task)).toList();
+        return (targets.isEmpty()) ? null : targets.getFirst();
     }
 
     public boolean removeTask(String task) {
-        Task res = null;
-        for (Task target : todoList) {
-           if (target.task.equals(task)) {
-               res = target;
-           }
-        }
-        if (res == null) {
+        List<Task> targets = todoList.stream().filter(it -> it.task.equals(task)).toList();
+        if (targets.isEmpty())
             return false;
-        } else {
-            this.todoList.remove(res);
+        else {
+            todoList.remove(targets.getFirst());
             return true;
         }
     }
 
     public List<Task> seeTasksInAscendingAndAlphabeticalOrder() {
-        if (todoList.isEmpty()) {
-            return null;
-        }
         List<Task> res = new ArrayList<>(todoList);
         res.sort(Comparator.comparing(s -> s.task));
-        return res;
+        return res.isEmpty() ? null : res;
     }
 
     public List<Task> seeTasksInDescendingAndAlphabeticalOrder() {
-        if (todoList.isEmpty()) {
-            return null;
-        }
         List<Task> res = new ArrayList<>(todoList);
-        res.sort(Comparator.comparing(s -> s.task));
         res.sort((s1, s2) -> s2.task.compareTo(s1.task));
-        return res;
+        return res.isEmpty() ? null : res;
     }
 }
