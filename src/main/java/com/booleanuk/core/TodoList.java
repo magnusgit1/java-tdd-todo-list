@@ -1,6 +1,9 @@
 package com.booleanuk.core;
 
+import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class TodoList {
@@ -108,5 +111,39 @@ public class TodoList {
         } else {
             return res;
         }
+    }
+
+    public boolean removeTask(String task) {
+        Task res = null;
+        for (Task target : todoList) {
+           if (target.task.equals(task)) {
+               res = target;
+           }
+        }
+        if (res == null) {
+            return false;
+        } else {
+            this.todoList.remove(res);
+            return true;
+        }
+    }
+
+    public List<Task> seeTasksInAscendingAndAlphabeticalOrder() {
+        if (todoList.isEmpty()) {
+            return null;
+        }
+        List<Task> res = new ArrayList<>(todoList);
+        res.sort(Comparator.comparing(s -> s.task));
+        return res;
+    }
+
+    public List<Task> seeTasksInDescendingAndAlphabeticalOrder() {
+        if (todoList.isEmpty()) {
+            return null;
+        }
+        List<Task> res = new ArrayList<>(todoList);
+        res.sort(Comparator.comparing(s -> s.task));
+        res.sort((s1, s2) -> s2.task.compareTo(s1.task));
+        return res;
     }
 }

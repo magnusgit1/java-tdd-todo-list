@@ -3,6 +3,9 @@ package com.booleanuk.core;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class TodoListTest {
 
     @Test
@@ -128,5 +131,72 @@ class TodoListTest {
         Assertions.assertEquals("running", res.task);
         Assertions.assertEquals("incomplete", res.status);
         Assertions.assertNull(todoList.searchForTask(task4));
+    }
+
+    @Test
+    public void testRemoveTask() {
+        TodoList todoList = new TodoList();
+
+        String task1 = "running";
+        String task2 = "shopping";
+
+        Assertions.assertFalse(todoList.removeTask(task1));
+
+        todoList.addTask(task1);
+        todoList.addTask(task2);
+
+        Assertions.assertTrue(todoList.removeTask(task1));
+        Assertions.assertTrue(todoList.removeTask(task2));
+        Assertions.assertTrue(todoList.todoList.isEmpty());
+    }
+
+    @Test
+    public void testSeeTasksInAscendingAndAlphabeticalOrder() {
+
+        TodoList todoList = new TodoList();
+
+        String task1 = "running";
+        String task2 = "cleaning";
+        String task3 = "shopping";
+        String task4 = "anything";
+
+        todoList.addTask(task1);
+        todoList.addTask(task2);
+        todoList.addTask(task3);
+        todoList.addTask(task4);
+
+        // Check if the list is unsorted
+        Assertions.assertEquals(task1, todoList.todoList.getFirst().task);
+
+        // Then check if the return-value of the method is correctly sorted
+        Assertions.assertEquals(task4, todoList.seeTasksInAscendingAndAlphabeticalOrder().getFirst().task);
+
+        // Then make sure the original list is unchanged
+        Assertions.assertEquals(task1, todoList.todoList.getFirst().task);
+    }
+
+    @Test
+    public void testSeeTasksInDescendingAndAlphabeticalOrder() {
+
+        TodoList todoList = new TodoList();
+
+        String task1 = "running";
+        String task2 = "cleaning";
+        String task3 = "shopping";
+        String task4 = "anything";
+
+        todoList.addTask(task1);
+        todoList.addTask(task2);
+        todoList.addTask(task3);
+        todoList.addTask(task4);
+
+        // Check if the list is unsorted
+        Assertions.assertEquals(task1, todoList.todoList.getFirst().task);
+
+        // Then check if the return-value of the method is correctly sorted
+        Assertions.assertEquals(task3, todoList.seeTasksInDescendingAndAlphabeticalOrder().getFirst().task);
+
+        // Then make sure the original list is unchanged
+        Assertions.assertEquals(task1, todoList.todoList.getFirst().task);
     }
 }
